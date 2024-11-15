@@ -125,5 +125,7 @@ with st.expander("**And if you haven't voted yet, feel free to do that below:**"
 
             try:
                 requests.post(submit_url, data=payload)
+                st.success("Vote submitted successfully!")
+                st.balloons()
             except Exception as e:
                 st.error(f"Error submitting form: {e}")
