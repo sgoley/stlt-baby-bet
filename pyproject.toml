@@ -1,0 +1,22 @@
+[project]
+name = "stlt-baby-bet"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.1.2",
+    "ipykernel>=6.29.5",
+    "numpy>=2.1.1",
+    "matplotlib>=3.9.2",
+    "pandas>=2.2.3",
+    "pydantic<2.0",
+    "streamlit>=1.39.0",
+    "streamlit-pydantic>=0.6.0",
+    "plotly>=5.24.1",
+    "streamlit-extras>=0.5.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
