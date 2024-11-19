@@ -67,7 +67,7 @@ with stylable_container(
         )
 
         fig.update_layout(
-            title="Current Votes Distribution",
+            title="Current Bets Distribution",
             xaxis_title="Gender",
             yaxis_title="Count",
             showlegend=False,
@@ -83,8 +83,11 @@ with stylable_container(
 
         with col3:
             st.write("##")
-            st.write("Votes so far:")
-            st.dataframe(bg_counts)
+            st.write("**Bets so far:**")
+
+            bg_counts = pd.DataFrame(bg_counts).reset_index()
+            bg_counts.columns = ["Bet", "Count"]
+            st.dataframe(bg_counts, hide_index=True)
 
         col01, col02, col03, col04 = st.columns(4)
         with col01:
@@ -100,7 +103,7 @@ with stylable_container(
             st.button("Refresh", on_click=get_latest_votes)
 
     else:
-        st.write("No votes yet! Be the first to cast your vote!")
+        st.write("No bets yet! Be the first to cast your Babybet!")
 
 
 st.divider()
@@ -112,7 +115,7 @@ with st.container(border=True):
         st.image("img/babybet.jpg", width=250)
 
         st.markdown(
-            f"""_Or, if you already voted, please use the same name to update your vote! 
+            f"""_Or if you have already voted, please use the same name if you'd like to update your vote! 
             Only {parents} will receive this information so no need to worry. 
             We know you will love Baby {last_name} either way_ 💖"""
         )
@@ -130,7 +133,7 @@ with st.container(border=True):
 
             payload = {
                 "entry.1933681190": data["boy_or_girl"],
-                "entry.1628045289": data["sage_words_of_advice"],
+                "entry.1628045289": data["any_words_of_advice"],
                 "entry.835637426": data["name_suggestions"],
                 "entry.1388341965": data["your_name"],
             }
