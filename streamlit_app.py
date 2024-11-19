@@ -13,6 +13,7 @@ sheet_id = st.secrets.gsheet.sheet_id
 sheet_name = st.secrets.gsheet.sheet_name
 form_url = st.secrets.gsheet.form_url
 last_name = st.secrets.last_name
+parents = st.secrets.parents
 response_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?gid={sheet_name}&format=csv"
 sideimg = "img/img_babyg.png"
 
@@ -34,14 +35,17 @@ with stylable_container(
             """,
 ):
 
-    st.markdown("# Welcome to babybet! 🍼")
-    st.markdown(f"### Is Baby {last_name} a He or She? Vote now!")
+    st.markdown(f"# Baby {last_name} is on the way 🍼")
+
+    st.markdown(f"### We'd love to see what your guess is!")
+
+    st.markdown(
+        f" Place your Babybets now! Then hit the refresh button to see the current standings."
+    )
     df_sheet = get_latest_votes()
     # dedupe df_sheet by same name, keep latest ts
-    df_sheet = (
-        df_sheet.sort_values(by="ts", ascending=False)
-        .drop_duplicates(subset="name", keep="first")
-        .reset_index(drop=True, inplace=True)
+    df_sheet = df_sheet.sort_values(by="ts", ascending=False).drop_duplicates(
+        subset="name", keep="first"
     )
 
     if not df_sheet.empty:
@@ -101,13 +105,16 @@ with stylable_container(
 
 st.divider()
 
-with st.expander("**And if you haven't voted yet, feel free to do that below:**"):
+with st.container(border=True):
+    st.write("**Please fill out the form below to place your Babybet:**")
 
     with st.form(key="pydantic_form", clear_on_submit=True):
         st.image("img/babybet.jpg", width=250)
 
         st.markdown(
-            "_Or, if you already voted, please use the same name to update your vote!_"
+            f"""_Or, if you already voted, please use the same name to update your vote! 
+            Only {parents} will receive this information so no need to worry. 
+            We know you will love Baby {last_name} either way_ 💖"""
         )
 
         data = sp.pydantic_input(key="my_custom_form_model", model=formModel)
