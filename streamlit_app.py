@@ -41,7 +41,7 @@ with stylable_container(
     df_sheet = (
         df_sheet.sort_values(by="ts", ascending=False)
         .drop_duplicates(subset="name", keep="first")
-        .reset_index(drop=True)
+        .reset_index(drop=True, inplace=True)
     )
 
     if not df_sheet.empty:
@@ -79,8 +79,8 @@ with stylable_container(
 
         with col3:
             st.write("##")
-            st.write("Last 5 votes:")
-            st.dataframe(bg_last_5_votes)
+            st.write("Votes so far:")
+            st.dataframe(bg_counts)
 
         col01, col02, col03, col04 = st.columns(4)
         with col01:
