@@ -6,6 +6,7 @@ import streamlit_pydantic as sp
 from models.formModel import formModel
 from streamlit_extras.stylable_container import stylable_container
 
+
 # st.set_page_config(layout="wide")
 
 sheet_id = st.secrets.gsheet.sheet_id
@@ -102,7 +103,7 @@ st.divider()
 
 with st.expander("**And if you haven't voted yet, feel free to do that below:**"):
 
-    with st.form(key="pydantic_form"):
+    with st.form(key="pydantic_form", clear_on_submit=True):
         st.image("img/babybet.jpg", width=250)
 
         st.markdown(
@@ -112,7 +113,11 @@ with st.expander("**And if you haven't voted yet, feel free to do that below:**"
         data = sp.pydantic_input(key="my_custom_form_model", model=formModel)
         submit_button = st.form_submit_button(label="Submit")
 
-        if submit_button:
+        if submit_button and (not data["your_name"] or data["your_name"].strip() == ""):
+            st.error("Please enter your name (minimum 2 characters)")
+            pass
+
+        elif submit_button:
 
             submit_url = f"https://docs.google.com/forms/d/e/{form_url}/formResponse"
 
@@ -124,8 +129,21 @@ with st.expander("**And if you haven't voted yet, feel free to do that below:**"
             }
 
             try:
-                requests.post(submit_url, data=payload)
-                st.success("Vote submitted successfully!")
-                st.balloons()
-            except Exception as e:
-                st.error(f"Error submitting form: {e}")
+                response = requests.post(submit_url, data=payload)
+                # Check if request was successful (status code 200)
+                response.raise_for_status()
+
+                if response.ok:
+                    st.success("Vote submitted successfully!")
+                    st.balloons()
+                else:
+                    st.error(
+                        f"Failed to submit vote. Status code: {response.status_code}"
+                    )
+
+            except requests.RequestException as e:
+                st.error(f"Error submitting form: {str(e)}")
+                st.write("Please try again or contact support if the issue persists.")
+
+        else:
+            pass

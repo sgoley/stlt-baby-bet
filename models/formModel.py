@@ -18,5 +18,8 @@ class formModel(BaseModel):
         default="", description="Your favorites or whatever you think will fit!"
     )
     your_name: str = Field(
-        min_length=2, description="Help us know who gets bragging rights!"
+        ...,
+        min_length=2,
+        description="Help us know who gets bragging rights!",
+        regex="^(?!\\s*$).+",  # Prevents whitespace-only strings
     )
