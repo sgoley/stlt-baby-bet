@@ -67,7 +67,7 @@ with stylable_container(
         )
 
         fig.update_layout(
-            title="Current Bets Distribution",
+            title="Team Boy💙 vs Team Girl💗",
             xaxis_title="Gender",
             yaxis_title="Count",
             showlegend=False,

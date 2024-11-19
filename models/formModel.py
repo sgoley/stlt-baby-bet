@@ -11,7 +11,7 @@ class formModel(BaseModel):
     """Primitive for Google Form"""
 
     boy_or_girl: BGSelectionValue = Field(default="")
-    Any_words_of_advice: str = Field(
+    any_words_of_advice: str = Field(
         default="", description="For us first time parents!"
     )
     name_suggestions: str = Field(
